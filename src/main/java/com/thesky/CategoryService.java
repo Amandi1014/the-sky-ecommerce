@@ -24,4 +24,8 @@ public class CategoryService {
         return categoryRepository.save(category);
     }
 
+    public void deleteCategory(Integer id) {
+        categoryRepository.deleteById(id);
+    }
+
 }
