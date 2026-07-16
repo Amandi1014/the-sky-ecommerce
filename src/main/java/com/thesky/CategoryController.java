@@ -26,4 +26,9 @@ public class CategoryController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @PostMapping
+    public Category createCategory(@RequestBody Category category) {
+        return categoryService.saveCategory(category);
+    }
+
 }
