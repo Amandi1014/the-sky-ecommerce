@@ -20,6 +20,10 @@
                     <p class="fw-bold">Rs. <span th:text="${product.price}">0</span></p>
                     <a th:href="@{/products-page/delete/{id}(id=${product.productId})}" class="btn btn-danger btn-sm">Delete</a>
                     <a th:href="@{/products-page/edit/{id}(id=${product.productId})}" class="btn btn-primary btn-sm">Edit</a>
+                    <form th:action="@{/cart/add}" method="post" style="display: inline;">
+                        <input type="hidden" name="productId" th:value="${product.productId}">
+                        <button type="submit" class="btn btn-sm" style="background-color: #5B9BD5; color: white;">Add to Cart</button>
+                    </form>
                 </div>
             </div>
         </div>

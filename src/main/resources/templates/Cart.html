@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>The Sky - My Cart</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="container py-5">
+    <h2 class="mb-4" style="color: #5B9BD5;">My Cart</h2>
+
+    <table class="table" th:if="${not #lists.isEmpty(cart.items)}">
+        <thead>
+        <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${cart.items}">
+            <td th:text="${item.product.productName}">Name</td>
+            <td th:text="${item.quantity}">1</td>
+            <td>Rs. <span th:text="${item.product.price}">0</span></td>
+            <td>
+                <a th:href="@{/cart/remove/{id}(id=${item.cartItemId})}" class="btn btn-danger btn-sm">Remove</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <p th:if="${#lists.isEmpty(cart.items)}">Your cart is empty.</p>
+</div>
+
+</body>
+</html>

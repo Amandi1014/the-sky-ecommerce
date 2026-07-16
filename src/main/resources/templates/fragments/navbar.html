@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
 
 <nav th:fragment="navbar" class="navbar navbar-expand-lg" style="background-color: #FFFFFF; border-bottom: 2px solid #5B9BD5; padding: 15px 0;">
@@ -20,8 +20,18 @@
                     <a class="nav-link" href="/cart" style="color: #2C3E50;">Cart</a>
                 </li>
             </ul>
-            <a href="/login" class="btn me-2" style="background-color: #5B9BD5; color: white; border-radius: 20px; padding: 6px 20px;">Login</a>
-            <a href="/register" class="btn" style="border: 2px solid #5B9BD5; color: #5B9BD5; border-radius: 20px; padding: 6px 20px;">Register</a>
+
+            <div sec:authorize="isAuthenticated()">
+                <span style="color: #2C3E50; margin-right: 15px;">
+                    Hello, <span sec:authentication="name">User</span>
+                </span>
+                <a href="/logout" class="btn" style="background-color: #5B9BD5; color: white; border-radius: 20px; padding: 6px 20px;">Logout</a>
+            </div>
+
+            <div sec:authorize="!isAuthenticated()">
+                <a href="/login" class="btn me-2" style="background-color: #5B9BD5; color: white; border-radius: 20px; padding: 6px 20px;">Login</a>
+                <a href="/register" class="btn" style="border: 2px solid #5B9BD5; color: #5B9BD5; border-radius: 20px; padding: 6px 20px;">Register</a>
+            </div>
         </div>
     </div>
 </nav>
