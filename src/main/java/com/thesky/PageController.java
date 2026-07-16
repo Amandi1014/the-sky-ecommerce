@@ -14,6 +14,9 @@ public class PageController {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private CategoryService categoryService;
+
     @GetMapping("/products-page")
     public String showProductsPage(Model model) {
         model.addAttribute("products", productService.getAllProducts());
@@ -50,6 +53,44 @@ public class PageController {
         product.setProductId(id);
         productService.saveProduct(product);
         return "redirect:/products-page";
+    }
+
+    @GetMapping("/categories-page")
+    public String showCategoriesPage(Model model) {
+        model.addAttribute("categories", categoryService.getAllCategories());
+        return "categories";
+    }
+
+    @GetMapping("/categories-page/add")
+    public String showAddCategoryForm(Model model) {
+        model.addAttribute("category", new Category());
+        return "add-category";
+    }
+
+    @PostMapping("/categories-page/add")
+    public String processAddCategoryForm(@ModelAttribute Category category) {
+        categoryService.saveCategory(category);
+        return "redirect:/categories-page";
+    }
+
+    @GetMapping("/categories-page/edit/{id}")
+    public String showEditCategoryForm(@PathVariable Integer id, Model model) {
+        Category category = categoryService.getCategoryById(id).orElseThrow();
+        model.addAttribute("category", category);
+        return "edit-category";
+    }
+
+    @PostMapping("/categories-page/edit/{id}")
+    public String processEditCategoryForm(@PathVariable Integer id, @ModelAttribute Category category) {
+        category.setCategoryId(id);
+        categoryService.saveCategory(category);
+        return "redirect:/categories-page";
+    }
+
+    @GetMapping("/categories-page/delete/{id}")
+    public String deleteCategory(@PathVariable Integer id) {
+        categoryService.deleteCategory(id);
+        return "redirect:/categories-page";
     }
 
 }
