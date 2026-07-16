@@ -93,4 +93,9 @@ public class PageController {
         return "redirect:/categories-page";
     }
 
+    @GetMapping("/")
+    public String showHomePage() {
+        return "home";
+    }
+
 }

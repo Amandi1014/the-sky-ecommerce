@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<nav th:fragment="navbar" class="navbar navbar-expand-lg" style="background-color: #FFFFFF; border-bottom: 2px solid #5B9BD5; padding: 15px 0;">
+    <div class="container">
+        <a class="navbar-brand" href="/" style="color: #5B9BD5; font-weight: bold; font-size: 24px;">The Sky</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/" style="color: #2C3E50;">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/products-page" style="color: #2C3E50;">Products</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/categories-page" style="color: #2C3E50;">Categories</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/cart" style="color: #2C3E50;">Cart</a>
+                </li>
+            </ul>
+            <a href="/login" class="btn me-2" style="background-color: #5B9BD5; color: white; border-radius: 20px; padding: 6px 20px;">Login</a>
+            <a href="/register" class="btn" style="border: 2px solid #5B9BD5; color: #5B9BD5; border-radius: 20px; padding: 6px 20px;">Register</a>
+        </div>
+    </div>
+</nav>
+
+</body>
+</html>
