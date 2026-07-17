@@ -18,4 +18,8 @@ public class CustomerService {
         customer.setPassword(hashedPassword);
         return customerRepository.save(customer);
     }
+
+    public java.util.List<Customer> getAllCustomers() {
+        return customerRepository.findAll();
+    }
 }

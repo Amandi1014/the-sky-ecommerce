@@ -22,12 +22,16 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/products-page", "/categories-page", "/register", "/login", "/products/**", "/categories/**").permitAll()               .requestMatchers("/", "/products-page", "/categories-page", "/register", "/login", "/temp-hash", "/products/**", "/categories/**").permitAll()
+                        .requestMatchers("/", "/products-page", "/categories-page", "/register", "/login", "/access-denied", "/products", "/products/{id}", "/categories", "/categories/{id}").permitAll()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
                         .permitAll()
+                )
+                .exceptionHandling(ex -> ex
+                        .accessDeniedPage("/access-denied")
                 );
 
         return http.build();

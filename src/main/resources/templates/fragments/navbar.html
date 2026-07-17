@@ -6,19 +6,16 @@
     <div class="container">
         <a class="navbar-brand" href="/" style="color: #5B9BD5; font-weight: bold; font-size: 24px;">The Sky</a>
         <div class="collapse navbar-collapse">
-            <ul class="navbar-nav me-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/" style="color: #2C3E50;">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/products-page" style="color: #2C3E50;">Products</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/categories-page" style="color: #2C3E50;">Categories</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/cart" style="color: #2C3E50;">Cart</a>
-                </li>
+
+            <ul class="navbar-nav me-auto" sec:authorize="!hasRole('ADMIN')">
+                <li class="nav-item"><a class="nav-link" href="/" style="color: #2C3E50;">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="/products-page" style="color: #2C3E50;">Products</a></li>
+                <li class="nav-item"><a class="nav-link" href="/categories-page" style="color: #2C3E50;">Categories</a></li>
+                <li class="nav-item"><a class="nav-link" href="/cart" style="color: #2C3E50;">Cart</a></li>
+            </ul>
+
+            <ul class="navbar-nav me-auto" sec:authorize="hasRole('ADMIN')">
+                <li class="nav-item"><a class="nav-link" href="/admin-dashboard" style="color: #2C3E50;">Dashboard</a></li>
             </ul>
 
             <div sec:authorize="isAuthenticated()">
