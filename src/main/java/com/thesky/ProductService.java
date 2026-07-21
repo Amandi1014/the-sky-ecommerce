@@ -25,4 +25,8 @@ public class ProductService {
         productRepository.deleteById(id);
     }
 
+    public java.util.List<Product> getProductsByCategory(Integer categoryId) {
+        return productRepository.findByCategoryId(categoryId);
+    }
+
 }

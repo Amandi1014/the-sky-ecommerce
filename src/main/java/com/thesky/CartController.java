@@ -49,4 +49,10 @@ public class CartController {
         cartService.removeFromCart(id);
         return "redirect:/cart";
     }
+
+    @PostMapping("/cart/update")
+    public String updateCartItem(@RequestParam Integer cartItemId, @RequestParam Integer quantity) {
+        cartService.updateQuantity(cartItemId, quantity);
+        return "redirect:/cart";
+    }
 }

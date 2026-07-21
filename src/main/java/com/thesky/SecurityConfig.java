@@ -22,7 +22,7 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/products-page", "/categories-page", "/register", "/login", "/access-denied", "/products", "/products/{id}", "/categories", "/categories/{id}").permitAll()
+                        .requestMatchers("/", "/products-page", "/categories-page", "/register", "/login", "/access-denied", "/products", "/products/{id}", "/categories", "/categories/{id}", "/forgot-password", "/reset-password").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
@@ -36,4 +36,5 @@ public class SecurityConfig {
 
         return http.build();
     }
+
 }

@@ -15,6 +15,7 @@
     <table class="table" th:if="${not #lists.isEmpty(cart.items)}">
         <thead>
         <tr>
+            <th><input type="checkbox" id="selectAll"></th>
             <th>Product</th>
             <th>Quantity</th>
             <th>Price</th>
@@ -23,8 +24,19 @@
         </thead>
         <tbody>
         <tr th:each="item : ${cart.items}">
+            <td>
+                <input type="checkbox"
+                       class="item-checkbox"
+                       th:data-linetotal="${item.product.price * item.quantity}">
+            </td>
             <td th:text="${item.product.productName}">Name</td>
-            <td th:text="${item.quantity}">1</td>
+            <td>
+                <form th:action="@{/cart/update}" method="post" class="d-flex align-items-center gap-2">
+                    <input type="hidden" name="cartItemId" th:value="${item.cartItemId}">
+                    <input type="number" name="quantity" th:value="${item.quantity}" min="1" class="form-control" style="width: 70px;">
+                    <button type="submit" class="btn btn-sm" style="background-color: #5B9BD5; color: white;">Update</button>
+                </form>
+            </td>
             <td>Rs. <span th:text="${item.product.price}">0</span></td>
             <td>
                 <a th:href="@{/cart/remove/{id}(id=${item.cartItemId})}" class="btn btn-danger btn-sm">Remove</a>
@@ -33,8 +45,52 @@
         </tbody>
     </table>
 
+    <div th:if="${not #lists.isEmpty(cart.items)}" class="d-flex justify-content-end align-items-center gap-3 mt-4">
+        <h5 style="color: #2C3E50;">Selected Total: Rs. <span id="selectedTotal">0.00</span></h5>
+        <button type="button" id="proceedBtn" class="btn" style="background-color: #5B9BD5; color: white; border-radius: 20px; padding: 8px 25px;" disabled>
+            Proceed to Payment
+        </button>
+    </div>
+
     <p th:if="${#lists.isEmpty(cart.items)}">Your cart is empty.</p>
 </div>
+
+<script>
+    const checkboxes = document.querySelectorAll('.item-checkbox');
+    const selectAll = document.getElementById('selectAll');
+    const selectedTotalEl = document.getElementById('selectedTotal');
+    const proceedBtn = document.getElementById('proceedBtn');
+
+    function recalculateTotal() {
+        let total = 0;
+        let anyChecked = false;
+
+        checkboxes.forEach(function (checkbox) {
+            if (checkbox.checked) {
+                total += parseFloat(checkbox.dataset.linetotal);
+                anyChecked = true;
+            }
+        });
+
+        selectedTotalEl.textContent = total.toFixed(2);
+        proceedBtn.disabled = !anyChecked;
+    }
+
+    checkboxes.forEach(function (checkbox) {
+        checkbox.addEventListener('change', recalculateTotal);
+    });
+
+    selectAll.addEventListener('change', function () {
+        checkboxes.forEach(function (checkbox) {
+            checkbox.checked = selectAll.checked;
+        });
+        recalculateTotal();
+    });
+
+    proceedBtn.addEventListener('click', function () {
+        alert('Checkout & payment is coming in the next step!');
+    });
+</script>
 
 </body>
 </html>

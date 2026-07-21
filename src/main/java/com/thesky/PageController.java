@@ -20,8 +20,12 @@ public class PageController {
     }
 
     @GetMapping("/products-page")
-    public String showProductsPage(Model model) {
-        model.addAttribute("products", productService.getAllProducts());
+    public String showProductsPage(@org.springframework.web.bind.annotation.RequestParam(required = false) Integer categoryId, Model model) {
+        if (categoryId != null) {
+            model.addAttribute("products", productService.getProductsByCategory(categoryId));
+        } else {
+            model.addAttribute("products", productService.getAllProducts());
+        }
         return "products";
     }
 

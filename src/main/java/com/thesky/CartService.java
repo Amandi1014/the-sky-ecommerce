@@ -48,4 +48,17 @@ public class CartService {
     public void removeFromCart(Integer cartItemId) {
         cartItemRepository.deleteById(cartItemId);
     }
+
+    public void updateQuantity(Integer cartItemId, Integer quantity) {
+        CartItem item = cartItemRepository.findById(cartItemId)
+                .orElseThrow(() -> new RuntimeException("Cart item not found"));
+        item.setQuantity(quantity);
+        cartItemRepository.save(item);
+    }
+
+    public int getCartItemCount(Integer customerId) {
+        return cartRepository.findByCustomerId(customerId)
+                .map(cart -> cart.getItems().stream().mapToInt(CartItem::getQuantity).sum())
+                .orElse(0);
+    }
 }

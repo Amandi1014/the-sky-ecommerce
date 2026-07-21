@@ -20,8 +20,9 @@
                     <p class="card-text" th:text="${product.description}">Description</p>
                     <p class="fw-bold">Rs. <span th:text="${product.price}">0</span></p>
 
-                    <form th:action="@{/cart/add}" method="post">
+                    <form th:action="@{/cart/add}" method="post" class="d-flex align-items-center gap-2">
                         <input type="hidden" name="productId" th:value="${product.productId}">
+                        <input type="number" name="quantity" value="1" min="1" class="form-control" style="width: 70px;">
                         <button type="submit" class="btn" style="background-color: #5B9BD5; color: white;">Add to Cart</button>
                     </form>
                 </div>
