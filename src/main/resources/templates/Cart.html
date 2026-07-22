@@ -27,7 +27,8 @@
             <td>
                 <input type="checkbox"
                        class="item-checkbox"
-                       th:data-linetotal="${item.product.price * item.quantity}">
+                       th:data-linetotal="${item.product.price * item.quantity}"
+                       th:data-cartitemid="${item.cartItemId}">
             </td>
             <td th:text="${item.product.productName}">Name</td>
             <td>
@@ -88,7 +89,27 @@
     });
 
     proceedBtn.addEventListener('click', function () {
-        alert('Checkout & payment is coming in the next step!');
+        const selectedIds = [];
+        checkboxes.forEach(function (checkbox) {
+            if (checkbox.checked) {
+                selectedIds.push(checkbox.dataset.cartitemid);
+            }
+        });
+
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/checkout/create-session';
+
+        selectedIds.forEach(function (id) {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'cartItemIds';
+            input.value = id;
+            form.appendChild(input);
+        });
+
+        document.body.appendChild(form);
+        form.submit();
     });
 </script>
 

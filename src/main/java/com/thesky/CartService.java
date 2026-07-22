@@ -2,6 +2,7 @@ package com.thesky;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.List;
 
 @Service
 public class CartService {
@@ -60,5 +61,17 @@ public class CartService {
         return cartRepository.findByCustomerId(customerId)
                 .map(cart -> cart.getItems().stream().mapToInt(CartItem::getQuantity).sum())
                 .orElse(0);
+    }
+
+    public List<CartItem> getCartItemsByIds(List<Integer> cartItemIds) {
+        return cartItemRepository.findAllById(cartItemIds);
+    }
+
+    public void removeFromCartByProduct(Integer customerId, Integer productId) {
+        Cart cart = getOrCreateCart(customerId);
+        cart.getItems().stream()
+                .filter(item -> item.getProduct().getProductId().equals(productId))
+                .findFirst()
+                .ifPresent(item -> cartItemRepository.deleteById(item.getCartItemId()));
     }
 }

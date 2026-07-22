@@ -86,4 +86,9 @@ public class CustomerService {
         customerRepository.save(customer);
         return true;
     }
+
+    public Customer getCustomerById(Integer customerId) {
+        return customerRepository.findById(customerId)
+                .orElseThrow(() -> new RuntimeException("Customer not found"));
+    }
 }
