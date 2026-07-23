@@ -31,6 +31,9 @@ public class CheckoutController {
 
     @PostMapping("/checkout/create-session")
     public String createCheckoutSession(@RequestParam("cartItemIds") List<Integer> cartItemIds,
+                                        @RequestParam String shippingName,
+                                        @RequestParam String shippingAddress,
+                                        @RequestParam String shippingPhone,
                                         Authentication authentication) throws StripeException {
 
         String email = authentication.getName();
@@ -78,6 +81,9 @@ public class CheckoutController {
         order.setStatus("PENDING");
         order.setStripeSessionId(session.getId());
         order.setOrderDate(java.time.LocalDateTime.now());
+        order.setShippingName(shippingName);
+        order.setShippingAddress(shippingAddress);
+        order.setShippingPhone(shippingPhone);
         orderRepository.save(order);
 
         for (CartItem item : selectedItems) {
@@ -119,5 +125,17 @@ public class CheckoutController {
     @GetMapping("/checkout/cancel")
     public String checkoutCancel() {
         return "checkout-cancel";
+    }
+
+    @PostMapping("/checkout/shipping-details")
+    public String showShippingDetailsForm(@RequestParam("cartItemIds") java.util.List<Integer> cartItemIds,
+                                          Authentication authentication,
+                                          org.springframework.ui.Model model) {
+        String email = authentication.getName();
+        Customer customer = customerService.getCustomerByEmail(email);
+
+        model.addAttribute("customer", customer);
+        model.addAttribute("cartItemIds", cartItemIds);
+        return "shipping-details";
     }
 }
